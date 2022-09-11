@@ -1,3 +1,5 @@
+using MyCoreRazorPages.AppDbContext;
+using Microsoft.EntityFrameworkCore;
 namespace MyCoreRazorPages
 {
     public class Program
@@ -6,8 +8,12 @@ namespace MyCoreRazorPages
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddRazorPages();
+            // Add services to the container. (Dependency Injection Container)
+            builder.Services.AddRazorPages(); //RazorPages Service
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+                builder.Configuration.GetConnectionString("DefaultConnection") //from appsettings.json. retrieve this and pass to the DBContext as well
+                ));
+
 
             var app = builder.Build();
 
